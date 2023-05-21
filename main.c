@@ -20,6 +20,7 @@ float disk_used, disk_perc;
 void ascii(char** l1, char** l2, char** l3, char** l4, char** l5);
 void memory_usage(int* total, float* used, float* percentage);
 void disk(int* total, float* used, float* perc);
+void network(char** ip);
 void os(char** name);
 float cpu_usage();
 
