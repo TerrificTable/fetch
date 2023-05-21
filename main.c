@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include <time.h>
 
-#include <windows.h>
-
 #include "common.h"
 
 
