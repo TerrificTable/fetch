@@ -1,88 +1,32 @@
+#include <math.h>
 #include <stdio.h>
 #include <time.h>
 
-#if defined(__linux__) || defined(__APPLE__)
-#elif defined(_WIN32)
 #include <windows.h>
-#include <pdh.h>
-#include <pdhmsg.h>
-#endif
 
-#define unused __attribute__((unused))
+#include "common.h"
 
 
 
+char* l1; char* l2; char* l3; char* l4; char* l5;
+int mem_total;
+float mem_used;
+float mem_perc;
+
+void ascii(char** l1, char** l2, char** l3, char** l4, char** l5);
+void memory_usage(int* total, float* used, float* percentage);
 float cpu_usage();
 
-
-
 int main(unused int argc, unused char *argv[]) {
-    printf("Cpu Usage: %.1f%%\n", cpu_usage());
+    ascii(&l1, &l2, &l3, &l4, &l5);
+    memory_usage(&mem_total, &mem_used, &mem_perc);
+
+    printf(" %s  cpu  %.1f%%\n", l1, cpu_usage());
+    printf(" %s  mem  %.2f/%d GB (%.1f%%)\n", l2, mem_used, mem_total, mem_perc);
+    printf(" %s  dsk  todo\n", l3);
+    printf(" %s  ip   todo\n", l4);
+    printf(" %s  os   todo\n", l5);
 
     return 0;
 }
-
-float cpu_usage() {
-    float cpu_usage = 0;
-
-#if defined(__linux__) || defined(__APPLE__)
-    FILE* file = fopen("/proc/stat", "r");
-    if (file == NULL) {
-        printf("Failed to open /proc/stat\n");
-        return 1;
-    }
-
-    char buffer[256];
-    if (fgets(buffer, sizeof(buffer), file) == NULL) {
-        printf("Failed to read /proc/stat\n");
-        fclose(file);
-        return 1;
-    }
-
-    fclose(file);
-
-    char cpuLabel[5];
-    unsigned long long user, nice, system, idle, iowait, irq, softirq, steal, guest, guest_nice;
-    sscanf(buffer, "%s %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu", cpuLabel, &user, &nice, &system, &idle, &iowait, &irq, &softirq, &steal, &guest, &guest_nice);
-
-    unsigned long long total_idle = idle + iowait;
-    unsigned long long total_non_idle = user + nice + system + irq + softirq + steal;
-    unsigned long long total = total_idle + total_non_idle;
-
-    cpu_usage = (double)total_non_idle / total * 100.0;
-#elif _WIN32
-    FILETIME idleTime, kernelTime, userTime;
-    ULARGE_INTEGER idleTimeStart, idleTimeEnd;
-    ULARGE_INTEGER kernelTimeStart, kernelTimeEnd;
-    ULARGE_INTEGER userTimeStart, userTimeEnd;
-    
-    GetSystemTimes(&idleTime, &kernelTime, &userTime);
-    idleTimeStart.LowPart = idleTime.dwLowDateTime;
-    idleTimeStart.HighPart = idleTime.dwHighDateTime;
-    kernelTimeStart.LowPart = kernelTime.dwLowDateTime;
-    kernelTimeStart.HighPart = kernelTime.dwHighDateTime;
-    userTimeStart.LowPart = userTime.dwLowDateTime;
-    userTimeStart.HighPart = userTime.dwHighDateTime;
-    
-    Sleep(1000);
-
-    GetSystemTimes(&idleTime, &kernelTime, &userTime);
-    idleTimeEnd.LowPart = idleTime.dwLowDateTime;
-    idleTimeEnd.HighPart = idleTime.dwHighDateTime;
-    kernelTimeEnd.LowPart = kernelTime.dwLowDateTime;
-    kernelTimeEnd.HighPart = kernelTime.dwHighDateTime;
-    userTimeEnd.LowPart = userTime.dwLowDateTime;
-    userTimeEnd.HighPart = userTime.dwHighDateTime;
-    
-    ULONGLONG idleTicks = idleTimeEnd.QuadPart - idleTimeStart.QuadPart;
-    ULONGLONG kernelTicks = kernelTimeEnd.QuadPart - kernelTimeStart.QuadPart;
-    ULONGLONG userTicks = userTimeEnd.QuadPart - userTimeStart.QuadPart;
-    ULONGLONG totalTicks = kernelTicks + userTicks;
-    
-    cpu_usage = (1.0 - ((float)idleTicks) / totalTicks) * 100.0;
-#endif
-
-    return cpu_usage;
-}
-
 
