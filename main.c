@@ -38,8 +38,8 @@ int main(unused int argc, unused char *argv[]) {
     }
 
     printf(" %s  cpu  %.1f%%\n", l1, cpu_usage());
-    printf(" %s  mem  %.2f/%d GB (%.1f%%)\n", l2, mem_used, mem_total, mem_perc);
-    printf(" %s  dsk  %.2f/%d GB (%.1f%%)\n", l3, disk_used, disk_total, disk_perc);
+    printf(" %s  mem  %.2f/%d gb (%.1f%%)\n", l2, mem_used, mem_total, mem_perc);
+    printf(" %s  dsk  %.2f/%d gb (%.1f%%)\n", l3, disk_used, disk_total, disk_perc);
     printf(" %s  ip   todo\n", l4);
     printf(" %s  os   %s\n", l5, os());
 
