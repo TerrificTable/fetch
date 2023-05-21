@@ -8,7 +8,7 @@
 
 #include "common.h"
 
-void memory_usage(unused int* total, unused float* used, unused float* perc) {
+void memory_usage(int* total, float* used, float* perc) {
 #ifdef _WIN32
     MEMORYSTATUSEX status;
     status.dwLength = sizeof(status);
@@ -31,7 +31,6 @@ void memory_usage(unused int* total, unused float* used, unused float* perc) {
 #elif defined(__linux__) || defined(__APPLE__)
     FILE* file = fopen("/proc/meminfo", "r");
     if (file == NULL) {
-        printf("Failed to open %s\n", "/proc/meminfo");
         *total = -1;
         *used = -1;
         *perc = -1;
