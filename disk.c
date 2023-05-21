@@ -36,11 +36,15 @@ void disk(int* total, float* used, float* perc) {
 
         double totalGB = (double)totalSpace / (1024 * 1024 * 1024);
         double usedGB = (double)usedSpace / (1024 * 1024 * 1024);
-
-        printf("Total Disk Space: %.2f GB\n", totalGB);
-        printf("Used Disk Space: %.2f GB\n", usedGB);
+        
+        *total = totalGB;
+        *used = usedGB;
+        *perc = (usedGB / totalGB) * 100;
     } else {
         printf("Failed to retrieve disk space information.\n");
+        *total = -1;
+        *used = -1;
+        *perc = -1;
     }
 #endif
 }
