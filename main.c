@@ -19,6 +19,7 @@ float disk_used, disk_perc;
 void ascii(char** l1, char** l2, char** l3, char** l4, char** l5);
 void memory_usage(int* total, float* used, float* percentage);
 void disk(int* total, float* used, float* perc);
+char* os();
 float cpu_usage();
 
 
@@ -40,7 +41,7 @@ int main(unused int argc, unused char *argv[]) {
     printf(" %s  mem  %.2f/%d GB (%.1f%%)\n", l2, mem_used, mem_total, mem_perc);
     printf(" %s  dsk  %.2f/%d GB (%.1f%%)\n", l3, disk_used, disk_total, disk_perc);
     printf(" %s  ip   todo\n", l4);
-    printf(" %s  os   todo\n", l5);
+    printf(" %s  os   %s\n", l5, os());
 
     return 0;
 }
