@@ -31,8 +31,11 @@ void memory_usage(unused int* total, unused float* used, unused float* perc) {
 #elif defined(__linux__) || defined(__APPLE__)
     FILE* file = fopen("/proc/meminfo", "r");
     if (file == NULL) {
-      printf("Failed to open %s\n", "/proc/meminfo");
-      return;
+        printf("Failed to open %s\n", "/proc/meminfo");
+        *total = -1;
+        *used = -1;
+        *perc = -1;
+        return;
     }
 
     unsigned long long totalMemory = 0;
@@ -42,15 +45,15 @@ void memory_usage(unused int* total, unused float* used, unused float* perc) {
 
     char line[256];
     while (fgets(line, sizeof(line), file)) {
-      if (sscanf(line, "MemTotal: %llu kB", &totalMemory) == 1) {
-        totalMemory *= 1024; // Convert from kilobytes to bytes
-      } else if (sscanf(line, "MemFree: %llu kB", &freeMemory) == 1) {
-        freeMemory *= 1024;
-      } else if (sscanf(line, "Buffers: %llu kB", &buffersMemory) == 1) {
-        buffersMemory *= 1024;
-      } else if (sscanf(line, "Cached: %llu kB", &cachedMemory) == 1) {
-        cachedMemory *= 1024;
-      }
+        if (sscanf(line, "MemTotal: %llu kB", &totalMemory) == 1) {
+            totalMemory *= 1024; // Convert from kilobytes to bytes
+        } else if (sscanf(line, "MemFree: %llu kB", &freeMemory) == 1) {
+            freeMemory *= 1024;
+        } else if (sscanf(line, "Buffers: %llu kB", &buffersMemory) == 1) {
+            buffersMemory *= 1024;
+        } else if (sscanf(line, "Cached: %llu kB", &cachedMemory) == 1) {
+            cachedMemory *= 1024;
+        }
     }
 
     fclose(file);
@@ -60,9 +63,9 @@ void memory_usage(unused int* total, unused float* used, unused float* perc) {
     double totalMemoryGB = (double)totalMemory / (1024 * 1024 * 1024);
     double usedMemoryGB = (double)usedMemory / (1024 * 1024 * 1024);
 
-  *total = totalMemoryGB;
-  *used = usedMemoryGB;
-
+    *total = totalMemoryGB;
+    *used = usedMemoryGB;
+    *perc = (usedMemoryGB / totalMemoryGB) * 100;
 #endif
 }
 
