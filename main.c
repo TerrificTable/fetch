@@ -54,7 +54,7 @@ float cpu_usage() {
     unsigned long long idleTicks = idleTimeEnd - idleTimeStart;
     unsigned long long totalTicks = sysconf(_SC_CLK_TCK);
 
-    cpu_usage = = ((double)idleTicks) / totalTicks;
+    cpu_usage = ((double)idleTicks) / totalTicks;
 #elif _WIN32
     FILETIME idleTime, kernelTime, userTime;
     ULARGE_INTEGER idleTimeStart, idleTimeEnd;
