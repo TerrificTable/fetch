@@ -2,7 +2,6 @@
 #include <time.h>
 
 #if defined(__linux__) || defined(__APPLE__)
-#include <unistd.h>
 #elif defined(_WIN32)
 #include <windows.h>
 #include <pdh.h>
@@ -23,38 +22,35 @@ int main(unused int argc, unused char *argv[]) {
     return 0;
 }
 
-
-#if defined(__linux__) || defined(__APPLE__)
-unsigned long long getCPUIdleTime() {
-    FILE* fp = fopen("/proc/stat", "r");
-    if (fp == NULL) {
-        perror("Failed to open /proc/stat");
-        return 0;
-    }
-
-    char cpuLabel[5];
-    unsigned long long user, nice, system, idle;
-    fscanf(fp, "%s %llu %llu %llu %llu", cpuLabel, &user, &nice, &system, &idle);
-
-    fclose(fp);
-
-    return idle;
-}
-#endif
-
-
 float cpu_usage() {
     float cpu_usage = 0;
 
 #if defined(__linux__) || defined(__APPLE__)
-    unsigned long long idleTimeStart = getCPUIdleTime();
-    sleep(1);
-    unsigned long long idleTimeEnd = getCPUIdleTime();
-    
-    unsigned long long idleTicks = idleTimeEnd - idleTimeStart;
-    unsigned long long totalTicks = sysconf(_SC_CLK_TCK);
+    FILE* file = fopen("/proc/stat", "r");
+    if (file == NULL) {
+        printf("Failed to open /proc/stat\n");
+        return 1;
+    }
 
-    cpu_usage = ((double)idleTicks) / totalTicks;
+    char buffer[256];
+    if (fgets(buffer, sizeof(buffer), file) == NULL) {
+        printf("Failed to read /proc/stat\n");
+        fclose(file);
+        return 1;
+    }
+
+    fclose(file);
+
+    char cpuLabel[5];
+    unsigned long long user, nice, system, idle, iowait, irq, softirq, steal, guest, guest_nice;
+    sscanf(buffer, "%s %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu",
+           cpuLabel, &user, &nice, &system, &idle, &iowait, &irq, &softirq, &steal, &guest, &guest_nice);
+
+    unsigned long long total_idle = idle + iowait;
+    unsigned long long total_non_idle = user + nice + system + irq + softirq + steal;
+    unsigned long long total = total_idle + total_non_idle;
+
+    cpu_usage = total_non_idle / total * 100.0;
 #elif _WIN32
     FILETIME idleTime, kernelTime, userTime;
     ULARGE_INTEGER idleTimeStart, idleTimeEnd;
