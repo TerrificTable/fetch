@@ -43,14 +43,13 @@ float cpu_usage() {
 
     char cpuLabel[5];
     unsigned long long user, nice, system, idle, iowait, irq, softirq, steal, guest, guest_nice;
-    sscanf(buffer, "%s %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu",
-           cpuLabel, &user, &nice, &system, &idle, &iowait, &irq, &softirq, &steal, &guest, &guest_nice);
+    sscanf(buffer, "%s %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu", cpuLabel, &user, &nice, &system, &idle, &iowait, &irq, &softirq, &steal, &guest, &guest_nice);
 
     unsigned long long total_idle = idle + iowait;
     unsigned long long total_non_idle = user + nice + system + irq + softirq + steal;
     unsigned long long total = total_idle + total_non_idle;
 
-    cpu_usage = total_non_idle / total * 100.0;
+    cpu_usage = (double)total_non_idle / total * 100.0;
 #elif _WIN32
     FILETIME idleTime, kernelTime, userTime;
     ULARGE_INTEGER idleTimeStart, idleTimeEnd;
