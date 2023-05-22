@@ -8,8 +8,8 @@ trigger:
     - push
 
 steps:
-  - name: setup
-    image: gcc
+  - name: build
+    image: alpine:latest
     commands:
       - apk add gcc make binutils bash libc-dev libnsl-dev linux-pam-dev musl-dev
       - make build

@@ -19,6 +19,10 @@ bin/%.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@ $(LDLIBS)
 
 
+test:
+	@echo "No Tests"
+
+
 clean:
 	rm -r bin
 	rm $(bin)
