@@ -101,7 +101,7 @@ void network(char** ip, char** out_hostname) {
         
 
     *out_hostname = malloc((strlen(hostname)+1) * sizeof(char));
-    strcpy_s(*out_hostname, strlen(hostname)+1, hostname);
+    strcpy(*out_hostname, strlen(hostname)+1, hostname);
 
 
     for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
