@@ -7,7 +7,7 @@ bin := fetch
 
 
 ifeq ($(OS),Windows_NT)
-    LDLIBS := -lpdh
+    LDLIBS := -lpdh -lws2_32
 endif
 
 

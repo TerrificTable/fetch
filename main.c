@@ -32,12 +32,6 @@ float cpu_usage();
 
 
 int main(unused int argc, unused char *argv[]) {
-#ifdef _WIN32
-    SetConsoleOutputCP(CP_UTF8);
-#else
-    setlocale(LC_CTYPE, "");
-#endif
-
     ascii(&l1, &l2, &l3, &l4, &l5);
     memory_usage(&mem_total, &mem_used, &mem_perc);
     if (mem_total == -1 || mem_used == -1 || mem_perc == -1) {
@@ -54,7 +48,12 @@ int main(unused int argc, unused char *argv[]) {
     os(&osName);
     network(&ip);
 
+
+#ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8);
+#else
     setlocale(LC_CTYPE, "");
+#endif
 
     printf(" %s  cpu  %.1f%%\n", l1, cpu_usage());
     printf(" %s  mem  %.2f/%d gb (%.1f%%)\n", l2, mem_used, mem_total, mem_perc);
