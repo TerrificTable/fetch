@@ -9,21 +9,6 @@
 #include "common.h"
 
 
-// "alpine": "\uf300",
-// "arch": "\uf303",
-// "centos": "\uf304",
-// "debian": "\uf306",
-// "elementary": "\uf309",
-// "fedora": "\uf30a",
-// "gentoo": "\uf30d",
-// "linux": "\ue712",
-// "macos": "\ue711",
-// "manjaro": "\uf312",
-// "mint": "\uf30f",
-// "opensuse": "\uf314",
-// "raspbian": "\uf315",
-// "ubuntu": "\uf31c",
-
 
 
 
@@ -49,8 +34,28 @@ void os(char** name, char** icon) {
             *name = malloc(256*sizeof(char));
             strcpy(*name, buffer+3);
             
-            if (strcmp(*name, "alpine")) {
+            if (strcmp(*name, "arch")) {
+                *icon = "";
+            } else if (strcmp(*name, "alpine")) {
                 *icon = "";
+            } else if (strcmp(*name, "ubuntu")) {
+                *icon = "";
+            } else if (strcmp(*name, "centos")) {
+                *icon = "";
+            } else if (strcmp(*name, "debian")) {
+                *icon = "";
+            } else if (strcmp(*name, "fedora")) {
+                *icon = "";
+            } else if (strcmp(*name, "manjaro")) {
+                *icon = "";
+            } else if (strcmp(*name, "gentoo")) {
+                *icon = "";
+            } else if (strcmp(*name, "linuxmint")) {
+                *icon = "";
+            } else if (strcmp(*name, "opensuse")) {
+                *icon = "";
+            } else if (strcmp(*name, "raspbian")) {
+                *icon = "";
             }
 
             break;
