@@ -7,7 +7,9 @@
 #include <windows.h>
 #include <ws2ipdef.h>
 #elif defined(__linux__) || defined(__APPLE__)
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/types.h>
 #include <ifaddrs.h>
 #include <netinet/in.h>
