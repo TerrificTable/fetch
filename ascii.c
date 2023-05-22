@@ -8,7 +8,7 @@
 
 void ascii(char** l1, char** l2, char** l3, char** l4, char** l5) {
     srand(time(0));
- 
+
     int num = 1 + rand() % 3;
     if (num == 1) {
         *l1 = "  ／l、     ";

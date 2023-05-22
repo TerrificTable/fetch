@@ -56,7 +56,7 @@ int main(unused int argc, unused char *argv[]) {
 #endif
 
 
-    // very readable
+    /* very readable */
     printf(" \033[38;5;241m%s  \033[38;5;105mcpu  \033[38;5;153m%.1f%%\n", l1, cpu_usage());
     printf(" \033[38;5;241m%s  \033[38;5;105mmem  \033[38;5;153m%.2f\033[37m/\033[38;5;153m%d\033[38;5;241mG \033[37m(\033[38;5;153m%.1f%%\033[37m)\n", l2, mem_used, mem_total, mem_perc);
     printf(" \033[38;5;241m%s  \033[38;5;105mdsk  \033[38;5;153m%.1f\033[37m/\033[38;5;153m%d\033[38;5;241mG \033[37m(\033[38;5;153m%.1f%%\033[37m)\n", l3, disk_used, disk_total, disk_perc);

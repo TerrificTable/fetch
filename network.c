@@ -52,7 +52,7 @@ void network(char** ip, char** out_hostname) {
     int status;
 
     memset(&hints, 0, sizeof(hints));
-    hints.ai_family = AF_UNSPEC;  // Allow IPv4 or IPv6
+    hints.ai_family = AF_INET;  // Allow IPv4 or IPv6
     hints.ai_socktype = SOCK_STREAM;
 
     if ((status = getaddrinfo(hostname, NULL, &hints, &res)) != 0) {
