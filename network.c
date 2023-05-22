@@ -94,15 +94,12 @@ void network(char** ip, char** out_hostname) {
 
     char hostname[256];
     if (gethostname(hostname, sizeof(hostname)) == 0) {
-        printf("Hostname: %s\n", hostname);
+      *out_hostname = malloc((strlen(hostname)+1) * sizeof(char));
+      strcpy(*out_hostname, hostname);
     } else {
         printf("Failed to get the hostname.\n");
     }
         
-
-    *out_hostname = malloc((strlen(hostname)+1) * sizeof(char));
-    strcpy(*out_hostname, hostname);
-
 
     for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
         if (ifa->ifa_addr == NULL)
