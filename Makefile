@@ -20,6 +20,6 @@ bin/%.o: %.c
 
 
 clean:
-	rm bin/*.o
+	rm -r bin
 	rm $(bin)
 
