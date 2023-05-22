@@ -9,9 +9,27 @@
 #include "common.h"
 
 
+// "alpine": "\uf300",
+// "arch": "\uf303",
+// "centos": "\uf304",
+// "debian": "\uf306",
+// "elementary": "\uf309",
+// "fedora": "\uf30a",
+// "gentoo": "\uf30d",
+// "linux": "\ue712",
+// "macos": "\ue711",
+// "manjaro": "\uf312",
+// "mint": "\uf30f",
+// "opensuse": "\uf314",
+// "raspbian": "\uf315",
+// "ubuntu": "\uf31c",
 
-void os(char** name) {
+
+
+
+void os(char** name, char** icon) {
 #ifdef _WIN32
+    *icon = "";
     *name = "Windows";
     return;
 #elif defined(__linux__)
@@ -30,6 +48,11 @@ void os(char** name) {
             // i dont like this
             *name = malloc(256*sizeof(char));
             strcpy(*name, buffer+3);
+            
+            if (strcmp(*name, "alpine")) {
+                *icon = "";
+            }
+
             break;
         } 
     }
@@ -37,9 +60,11 @@ void os(char** name) {
     return;
 
 #elif defined(__APPLE__)
+    *icon = "";
     *name = "MacOS";
     return;
 #endif
+    *icon = "";
     *name = "Unknown";
 }
 
