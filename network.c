@@ -13,6 +13,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
+#include <sys/socket.h>
 
 
 #ifndef NI_NUMERICHOST
@@ -89,6 +90,12 @@ void network(char** ip, char** out_hostname) {
         perror("Failed to get interface addresses");
         return;
     }
+
+    // TODO: Get Hostname
+    // and: network.c:100:17: error: implicit declaration of function ‘getnameinfo’ [-Werror=implicit-function-declaration]
+    // 100 |             s = getnameinfo(ifa->ifa_addr, sizeof(struct sockaddr_in), host, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
+    //     |                 ^~~~~~~~~~~
+
 
     for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
         if (ifa->ifa_addr == NULL)
