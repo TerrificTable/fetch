@@ -15,7 +15,6 @@
 #include <netdb.h>
 #include <sys/socket.h>
 
-
 #ifndef NI_NUMERICHOST
 #define NI_NUMERICHOST 1
 #endif

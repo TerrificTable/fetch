@@ -7,9 +7,6 @@ trigger:
   event:
     - push
 
-platform:
-  arch: amd64
-
 steps:
   # - name: setup
   #   image: gcc
