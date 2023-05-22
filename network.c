@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
-#ifdef _WIN32
+#if defined _WIN32 || defined __CYGWIN__
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <windows.h>
@@ -30,7 +31,7 @@
 
 
 void network(char** ip, char** out_hostname) {
-#ifdef _WIN32
+#if defined _WIN32 || defined __CYGWIN__
     WSADATA wsaData;
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
         fprintf(stderr, "Failed to initialize winsock.\n");
@@ -45,7 +46,7 @@ void network(char** ip, char** out_hostname) {
     }
 
     *out_hostname = malloc((strlen(hostname)+1) * sizeof(char));
-    strcpy_s(*out_hostname, strlen(hostname)+1, hostname);
+    strcpy(*out_hostname, hostname);
 
 
     struct addrinfo hints, *res, *p;
@@ -74,7 +75,7 @@ void network(char** ip, char** out_hostname) {
             // I do not like this
             if (strncmp(ipstr, "192.168.2", 9) == 0) {
                 *ip = malloc(INET_ADDRSTRLEN * sizeof(char));
-                strcpy_s(*ip, strlen(ipstr)+1, ipstr);
+                strcpy(*ip, ipstr);
                 break;
             }
         }

@@ -13,7 +13,7 @@
 
 
 void os(char** name, char** icon) {
-#ifdef _WIN32
+#if defined _WIN32 || defined __CYGWIN__
     *icon = "";
     *name = "Windows";
     return;

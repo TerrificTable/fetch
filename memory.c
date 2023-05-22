@@ -1,6 +1,6 @@
 #include <math.h>
 
-#ifdef _WIN32
+#if defined _WIN32 || defined __CYGWIN__
 #include <windows.h>
 #elif defined(__linux__) || defined(__APPLE__)
 #include <stdio.h>
@@ -9,7 +9,7 @@
 #include "common.h"
 
 void memory_usage(int* total, float* used, float* perc) {
-#ifdef _WIN32
+#if defined _WIN32 || defined __CYGWIN__
     MEMORYSTATUSEX status;
     status.dwLength = sizeof(status);
 

@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#ifdef _WIN32
+#if defined _WIN32 || defined __CYGWIN__
 #include <windows.h>
 #include <pdh.h>
 #include <pdhmsg.h>
@@ -34,7 +34,7 @@ float cpu_usage() {
     unsigned long long total = total_idle + total_non_idle;
 
     cpu_usage = (double)total_non_idle / total * 100.0;
-#elif _WIN32
+#elif defined _WIN32 || defined __CYGWIN__
     FILETIME idleTime, kernelTime, userTime;
     ULARGE_INTEGER idleTimeStart, idleTimeEnd;
     ULARGE_INTEGER kernelTimeStart, kernelTimeEnd;

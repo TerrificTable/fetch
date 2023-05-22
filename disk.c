@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#ifdef _WIN32
+#if defined _WIN32 || defined __CYGWIN__
 #include <windows.h>
 #elif defined(__linux__) || defined(__APPLE__)
 #include <sys/statvfs.h>
@@ -10,7 +10,7 @@
 
 
 void disk(int* total, float* used, float* perc) {
-#ifdef _WIN32
+#if defined _WIN32 || defined __CYGWIN__
     ULARGE_INTEGER totalSpace, freeSpace, usedSpace;
 
     if (GetDiskFreeSpaceEx("C:", &usedSpace, &totalSpace, &freeSpace)) {
