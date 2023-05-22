@@ -8,18 +8,10 @@ trigger:
     - push
 
 steps:
-  # - name: setup
-  #   image: gcc
-  #   commands:
-  #     - apk add gcc make binutils bash libc-dev musl-dev
-
-  - name: build
+  - name: setup
     image: gcc
     commands:
+      - apk add gcc make binutils bash libc-dev libnsl-dev linux-pam-dev musl-dev
       - make build
-
-  - name: test
-    image: gcc
-    commands:
       - make test
 
