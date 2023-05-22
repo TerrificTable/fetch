@@ -17,7 +17,14 @@ build: $(obj)
 bin/%.o: %.c
 	@mkdir -p bin
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@ $(LDLIBS)
+.PHONY: build, install
 
+
+# TODO: Windows and MacOS (maybe)
+install: build
+	@if [ $$(uname -s) = "Linux" ]; then \
+    cp -f ./$(bin) /usr/local/bin/$(bin); \
+  fi	
 
 test:
 	@echo "No Tests"
