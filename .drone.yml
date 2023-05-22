@@ -7,30 +7,19 @@ trigger:
   event:
     - push
 
+image: alpine:latest
+
 steps:
   - name: setup
-    image: alpine:latest
     commands:
       - apk add gcc make binutils bash libc-dev musl-dev
-    # volumes:
-    #   - name: shared-data
-    #     path: /drone/shared-data
 
   - name: build
-    image: alpine:latest
     commands:
       - pwd
       - make build
-    # volumes:
-    #   - name: shared-data
-    #     path: /drone/shared-data
 
   - name: test
-    image: alpine:latest
     commands:
       - make test
-    # volumes:
-    #   - name: shared-data
-    #     path: /drone/shared-data
-
 
