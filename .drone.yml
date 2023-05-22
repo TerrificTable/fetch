@@ -1,25 +1,28 @@
 ---
 kind: pipeline
-type: docker
+# type: docker
 name: fetch
 
 trigger:
   event:
     - push
 
-image: alpine:latest
+platform:
+  arch: amd64
 
 steps:
-  - name: setup
-    commands:
-      - apk add gcc make binutils bash libc-dev musl-dev
+  # - name: setup
+  #   image: gcc
+  #   commands:
+  #     - apk add gcc make binutils bash libc-dev musl-dev
 
   - name: build
+    image: gcc
     commands:
-      - pwd
       - make build
 
   - name: test
+    image: gcc
     commands:
       - make test
 
