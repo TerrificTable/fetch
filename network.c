@@ -28,7 +28,7 @@
 
 
 
-void network(unused char** ip) {
+void network(char** ip, char** out_hostname) {
 #ifdef _WIN32
     WSADATA wsaData;
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
@@ -42,6 +42,9 @@ void network(unused char** ip) {
         WSACleanup();
         return;
     }
+
+    *out_hostname = malloc((strlen(hostname)+1) * sizeof(char));
+    strcpy_s(*out_hostname, strlen(hostname)+1, hostname);
 
 
     struct addrinfo hints, *res, *p;
@@ -69,7 +72,7 @@ void network(unused char** ip) {
          
             // I do not like this
             if (strncmp(ipstr, "192.168.2", 9) == 0) {
-                *ip = malloc(INET_ADDRSTRLEN);
+                *ip = malloc(INET_ADDRSTRLEN * sizeof(char));
                 strcpy_s(*ip, strlen(ipstr)+1, ipstr);
                 break;
             }
