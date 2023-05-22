@@ -7,13 +7,21 @@
 #include <windows.h>
 #include <ws2ipdef.h>
 #elif defined(__linux__) || defined(__APPLE__)
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <sys/types.h>
 #include <ifaddrs.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <netdb.h>
+
+
+#ifndef NI_NUMERICHOST
+#define NI_NUMERICHOST 1
+#endif
+
+#ifndef NI_MAXHOST
+#define NI_MAXHOST 1025
+#endif
 #endif
 
 #include "common.h"
@@ -60,7 +68,7 @@ void network(unused char** ip) {
             inet_ntop(AF_INET, addr, ipstr, sizeof(ipstr));
          
             // I do not like this
-            if (strncmp(ipstr, "192.168.2", strlen("192.168.2")) == 0) {
+            if (strncmp(ipstr, "192.168.2", 9) == 0) {
                 *ip = malloc(INET_ADDRSTRLEN);
                 strcpy_s(*ip, strlen(ipstr)+1, ipstr);
                 break;
@@ -76,25 +84,28 @@ void network(unused char** ip) {
 
     if (getifaddrs(&ifaddr) == -1) {
         perror("Failed to get interface addresses");
-        return 1;
+        return;
     }
 
-    // Traverse the linked list of network interfaces
     for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
         if (ifa->ifa_addr == NULL)
             continue;
 
         family = ifa->ifa_addr->sa_family;
 
-        // Filter for IPv4 addresses
         if (family == AF_INET) {
-            s = getnameinfo(ifa->ifa_addr, sizeof(struct sockaddr_in),
-                            host, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
+            s = getnameinfo(ifa->ifa_addr, sizeof(struct sockaddr_in), host, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
             if (s != 0) {
-                fprintf(stderr, "Failed to get IPv4 address: %s\n", gai_strerror(s));
-                return 1;
+                fprintf(stderr, "Failed to get IPv4 address: %s\n", strerror(s));
+                return;
             }
-            printf("Interface: %s\t IPv4 Address: %s\n", ifa->ifa_name, host);
+          
+            // i also dont like this
+            if (strncmp(host, "192.168.2", 9) == 0) {
+                *ip = malloc(NI_MAXHOST);
+                strcpy(*ip, host);
+                break;
+            }
         }
     }
 
