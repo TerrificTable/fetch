@@ -1,7 +1,6 @@
 #include <stdio.h>
 
-#if defined(__linux__) || defined(__APPLE__)
-#elif defined(_WIN32)
+#ifdef _WIN32
 #include <windows.h>
 #include <pdh.h>
 #include <pdhmsg.h>
