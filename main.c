@@ -57,8 +57,8 @@ int main(unused int argc, unused char *argv[]) {
  
     // very readable
     printf(" \033[38;5;241m%s  \033[38;5;105mcpu  \033[38;5;153m%.1f%%\n", l1, cpu_usage());
-    printf(" \033[38;5;241m%s  \033[38;5;105mmem  \033[38;5;153m%.2f\033[37m/\033[38;5;153m%d\033[38;5;241mG \033[37m(\033[38;5;153m%.1f%%)\n", l2, mem_used, mem_total, mem_perc);
-    printf(" \033[38;5;241m%s  \033[38;5;105mdsk  \033[38;5;153m%.1f\033[37m/\033[38;5;153m%d\033[38;5;241mG \033[37m(\033[38;5;153m%.1f%%)\n", l3, disk_used, disk_total, disk_perc);
+    printf(" \033[38;5;241m%s  \033[38;5;105mmem  \033[38;5;153m%.2f\033[37m/\033[38;5;153m%d\033[38;5;241mG \033[37m(\033[38;5;153m%.1f%%\033[37m)\n", l2, mem_used, mem_total, mem_perc);
+    printf(" \033[38;5;241m%s  \033[38;5;105mdsk  \033[38;5;153m%.1f\033[37m/\033[38;5;153m%d\033[38;5;241mG \033[37m(\033[38;5;153m%.1f%%\033[37m)\n", l3, disk_used, disk_total, disk_perc);
     printf(" \033[38;5;241m%s  \033[38;5;105mip   \033[38;5;153m%s \033[37m(\033[38;5;153m%s\033[37m)\n", l4, ip, hostname);
     printf(" \033[38;5;241m%s  \033[38;5;105mos   \033[38;5;153m%s\033[0m\n", l5, osName);
 
