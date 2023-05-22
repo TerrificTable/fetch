@@ -56,6 +56,8 @@ void os(char** name, char** icon) {
                 *icon = "";
             } else if (strcmp(*name, "raspbian")) {
                 *icon = "";
+            } else {
+                *icon = "";
             }
 
             break;
