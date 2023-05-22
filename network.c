@@ -14,6 +14,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <sys/socket.h>
+#include <unistd.h>
 
 #ifndef NI_NUMERICHOST
 #define NI_NUMERICHOST 1
@@ -90,10 +91,17 @@ void network(char** ip, char** out_hostname) {
         return;
     }
 
-    // TODO: Get Hostname
-    // and: network.c:100:17: error: implicit declaration of function ‘getnameinfo’ [-Werror=implicit-function-declaration]
-    // 100 |             s = getnameinfo(ifa->ifa_addr, sizeof(struct sockaddr_in), host, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
-    //     |                 ^~~~~~~~~~~
+
+    char hostname[256];
+    if (gethostname(hostname, sizeof(hostname)) == 0) {
+        printf("Hostname: %s\n", hostname);
+    } else {
+        printf("Failed to get the hostname.\n");
+    }
+        
+
+    *out_hostname = malloc((strlen(hostname)+1) * sizeof(char));
+    strcpy_s(*out_hostname, strlen(hostname)+1, hostname);
 
 
     for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
